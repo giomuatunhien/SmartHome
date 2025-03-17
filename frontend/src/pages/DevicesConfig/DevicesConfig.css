@@ -1,0 +1,133 @@
+.main-content {
+    flex: 1;
+    background: linear-gradient(to bottom, #fce4ec, #ffffff);
+    padding: 30px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .main-header h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    border: 2px solid #3498db;
+    border-radius: 20px;
+    width: 250px;
+    font-size: 16px;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+  }
+  
+  .search-bar input:focus {
+    border-color: #2980b9;
+    outline: none;
+  }
+  
+  .header-icons {
+    display: flex;
+    gap: 20px;
+    font-size: 24px;
+  }
+  
+  .header-icons span {
+    cursor: pointer;
+    color: #7f8c8d;
+    transition: color 0.3s ease;
+  }
+  
+  .header-icons span:hover {
+    color: #e91e63;
+  }
+  
+  /* Devices Config Section */
+  .devices-config-section {
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .config-card {
+    background: linear-gradient(135deg, #ffffff, #f8e1e9);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .device-item {
+    background: linear-gradient(135deg, #ffffff, #fadbd8);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .device-item h3 {
+    font-size: 18px;
+    color: #34495e;
+    margin-bottom: 15px;
+  }
+  
+  .threshold-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .threshold-row label {
+    font-size: 14px;
+    color: #34495e;
+    font-weight: 500;
+  }
+  
+  .threshold-row input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 60px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .threshold-row input:focus {
+    border-color: #e91e63;
+    outline: none;
+  }
+  
+  .config-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .save-btn {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+  }

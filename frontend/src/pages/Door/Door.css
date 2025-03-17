@@ -1,0 +1,328 @@
+.main-content {
+  flex: 1;
+  background: linear-gradient(to bottom, #f5e6e6, #ffffff);
+  padding: 20px;
+  height: 100vh;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.search-bar input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  width: 200px;
+}
+
+.header-icons {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+/* Door Control Section */
+.door-control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.door-control-form {
+  background-color: #d4edda;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.door-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.password-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.password-input label {
+  font-size: 16px;
+}
+
+.password-input input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.password-input .error {
+  color: red;
+  font-size: 14px;
+}
+
+.open-door-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.open-door-btn:hover {
+  background-color: #0056b3;
+}
+
+.face-ai-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.face-ai-btn:hover {
+  background-color: #218838;
+}
+
+.change-password-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.change-password-btn:hover {
+  background-color: #5a6268;
+}
+
+/* History Section */
+.history-section {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.history-section h2 {
+  margin-bottom: 20px;
+}
+
+.history-status {
+  margin-bottom: 20px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.history-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.history-table td {
+  font-size: 14px;
+}
+
+.history-table td:last-child {
+  text-align: center;
+  cursor: pointer;
+}
+
+.view-icon {
+  font-size: 18px;
+  color: #007bff;
+}
+
+.view-icon:hover {
+  color: #0056b3;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+.pagination span {
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.pagination span:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Modal Overlay và Image Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-image {
+  max-width: 300px;
+  max-height: 300px;
+  margin-bottom: 20px;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Change Password Modal */
+.change-password-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 400px;
+}
+
+.change-password-modal h2 {
+  margin-bottom: 20px;
+}
+
+.password-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.password-fields label {
+  font-size: 16px;
+}
+
+.password-fields input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.password-fields .error {
+  color: red;
+  font-size: 14px;
+}
+
+.face-ai-option {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.face-ai-option label {
+  font-size: 16px;
+}
+
+.update-face-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.update-face-btn:hover {
+  background-color: #218838;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.save-password-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-password-btn:hover {
+  background-color: #0056b3;
+}
+
+.cancel-password-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-password-btn:hover {
+  background-color: #5a6268;
+}
