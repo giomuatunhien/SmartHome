@@ -6,8 +6,28 @@ import avatarImage from '../../img/avatar.jpg';
 const Menu = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        // Xóa token và role khỏi localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+
+        setIsLoggedIn(false);
+        console.log("Đăng xuất thành công!");
+      } else {
+        console.error("Đăng xuất thất bại!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi đăng xuất:", error);
+    }
+    //setIsLoggedIn(false);
   };
 
   const handleAvatarClick = () => {

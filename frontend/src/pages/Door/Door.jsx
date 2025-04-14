@@ -20,17 +20,45 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
     setError('');
   };
 
+  // // Xử lý mở cửa
+  // const handleOpenDoor = () => {
+  //   if (password === '112233') {
+  //     setIsDoorOn(true);
+  //     setError('');
+  //     alert('Cửa đã được mở!');
+  //     navigate('/home');
+  //   } else {
+  //     setError('Mật mã không đúng!');
+  //   }
+  // };
+
+
   // Xử lý mở cửa
-  const handleOpenDoor = () => {
-    if (password === '112233') {
-      setIsDoorOn(true);
-      setError('');
-      alert('Cửa đã được mở!');
-      navigate('/home');
-    } else {
-      setError('Mật mã không đúng!');
+  const handleOpenDoor = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/smart_door/access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsDoorOn(true);
+        setError('');
+        alert('Cửa đã được mở!');
+        navigate('/home'); // Chuyển hướng về trang chính
+      } else {
+        setError(data.message || 'Có lỗi xảy ra!');
+      }
+    } catch (error) {
+      console.error('Lỗi mở cửa:', error);
+      setError('Không thể kết nối đến server!');
     }
   };
+
 
   // Dữ liệu lịch sử
   const historyData = [

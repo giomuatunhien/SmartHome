@@ -110,6 +110,7 @@
 .env-card:nth-child(1) {
   background: linear-gradient(135deg, #ffffff, #d5f5e3);
 }
+
 .env-card:nth-child(1) .env-value {
   background: linear-gradient(90deg, #27ae60, #219653);
   -webkit-background-clip: text;
@@ -120,6 +121,7 @@
 .env-card:nth-child(2) {
   background: linear-gradient(135deg, #ffffff, #f5e6cb);
 }
+
 .env-card:nth-child(2) .env-value {
   background: linear-gradient(90deg, #f39c12, #e67e22);
   -webkit-background-clip: text;
@@ -130,6 +132,7 @@
 .env-card:nth-child(3) {
   background: linear-gradient(135deg, #ffffff, #e8f5e9);
 }
+
 .env-card:nth-child(3) .env-value {
   background: linear-gradient(90deg, #8e44ad, #9b59b6);
   -webkit-background-clip: text;
@@ -140,6 +143,7 @@
 .env-card:nth-child(4) {
   background: linear-gradient(135deg, #ffffff, #f0f4c3);
 }
+
 .env-card:nth-child(4) .env-value {
   background: linear-gradient(90deg, #16a085, #1abc9c);
   -webkit-background-clip: text;
@@ -150,7 +154,7 @@
 /* Smart Door Control */
 .door-control {
   flex: 1;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #ffafbd, #ffc3a0);
   border-radius: 15px;
   padding: 20px;
   display: flex;
@@ -213,10 +217,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #3498db;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }

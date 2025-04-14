@@ -104,7 +104,7 @@ function App() {
           }
         />
         <Route
-          path="/smart-voice" 
+          path="/smart-voice"
           element={
             isLoggedIn ? (
               <div className="app-container">

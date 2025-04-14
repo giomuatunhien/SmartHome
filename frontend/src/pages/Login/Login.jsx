@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -12,10 +12,10 @@ const Login = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   // Dữ liệu người dùng giả lập
-  const mockUsers = {
-    Admin: [{ email: 'admin@gmail.com', password: 'admin' }],
-    Member: [{ email: 'member@gmail.com', password: 'member123' }],
-  };
+  // const mockUsers = {
+  //   Admin: [{ email: 'admin@gmail.com', password: 'admin' }],
+  //   Member: [{ email: 'member@gmail.com', password: 'member123' }],
+  // };
 
   // Xử lý khi bấm nút LOGIN
   const handleLoginClick = () => {
@@ -39,22 +39,88 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   // Xử lý khi bấm nút Continue (mô phỏng đăng nhập)
-  const handleLoginSubmit = (e) => {
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault();
+  //   setError('');
+
+  //   const users = mockUsers[selectedRole] || [];
+  //   const user = users.find((u) => u.email === email && u.password === password);
+
+  //   if (user) {
+  //     // Mô phỏng lưu token và cập nhật trạng thái đăng nhập
+  //     localStorage.setItem('token', 'mock-token'); // Token giả lập
+  //     setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
+  //     navigate('/home'); // Điều hướng đến trang Home
+  //   } else {
+  //     setError('Email hoặc mật khẩu không đúng!');
+  //   }
+  // };
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
-    const users = mockUsers[selectedRole] || [];
-    const user = users.find((u) => u.email === email && u.password === password);
-
-    if (user) {
-      // Mô phỏng lưu token và cập nhật trạng thái đăng nhập
-      localStorage.setItem('token', 'mock-token'); // Token giả lập
-      setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
-      navigate('/home'); // Điều hướng đến trang Home
-    } else {
-      setError('Email hoặc mật khẩu không đúng!');
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    // Xác định endpoint API dựa trên vai trò
+    const endpoint =
+      selectedRole === "Admin"
+        ? "http://localhost:3001/admin/login"
+        : "http://localhost:3001/member/login";
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        credentials: "include", // 🔥 Quan trọng: gửi cookie
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Lưu token vào localStorage để sử dụng sau này
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("user", data.user);
+        setIsLoggedIn(true);
+        navigate("/home");
+      } else {
+        alert(data.message || "Invalid email or password!");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred while logging in.");
     }
   };
+
+  // Hàm kiểm tra trạng thái đăng nhập
+  // Hàm kiểm tra trạng thái đăng nhập (gọi API để xác thực token)
+  const checkLoginStatus = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/user/verifyToken", {
+        method: "GET",
+        credentials: "include", // Đảm bảo gửi cookie
+      });
+
+      if (!res.ok) throw new Error("Không có phiên đăng nhập");
+
+      const data = await res.json();
+      return { isLoggedIn: true, user: data.user, role: data.role };
+    } catch (error) {
+      return { isLoggedIn: false, user: null, role: null };
+    }
+  };
+
+  // Kiểm tra trạng thái đăng nhập khi load Login.jsx
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authStatus = await checkLoginStatus();
+      if (authStatus.isLoggedIn) {
+        setIsLoggedIn(true);
+        navigate('/home');
+      }
+    };
+    checkAuth();
+  }, [navigate, setIsLoggedIn]);
+
 
   return (
     <div className="login-container">
