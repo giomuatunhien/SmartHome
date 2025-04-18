@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { Admin } = require('../../models/account.model');
+const { Admin } = require('../../models/account.model'); 
 
 // const create_admin_account = async (req, res) => {
 //   try {
@@ -86,92 +86,74 @@ const create_admin_account = async (req, res) => {
 
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  const admin = await Admin.findOne({
-    email: email
-  });
-
-  if (!admin) {
-    return res.status(400).json({ message: 'Email đăng nhập không chính xác.' });
-  }
-
-  if (admin.password !== password) {
-    return res.status(400).json({ message: 'Sai mật khẩu.' });
-  }
-
-  if (admin.role !== "admin") {
-    return res.status(403).json({ message: 'Bạn không có quyền truy cập.' });
-  }
-
-
-  const token = jwt.sign(
-    {
-      id: admin.id,
-      fullname: admin.fullname,
-      role: admin.role,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '1d' }
-  );
-
-  admin.token = token;
-  await admin.save();
-
-  // Lưu token vào cookie
-  res.cookie("token", token, {
-    maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    secure: true
-  });
-
-  res.status(200).json({
-    message: "Đăng nhập thành công!",
-    user: admin.fullname,
-    role: admin.role,
-    token: admin.token,
-  });
-};
-
-
-const verifyToken = (req, res) => {
-  const token = req.cookies.token;  // Đọc token từ cookie
-  if (!token) {
-    return res.status(401).json({ message: "Chưa đăng nhập" });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).json({
-      message: "Token hợp lệ",
-      user: decoded.fullname,
-      role: decoded.role
+    const admin = await Admin.findOne({
+        email: email
     });
-  } catch (error) {
-    res.status(401).json({ message: "Token không hợp lệ" });
-  }
+
+    if (!admin) {
+        return res.status(400).json({ message: 'Email đăng nhập không chính xác.' });
+    }
+
+    if (admin.password !== password) {
+            return res.status(400).json({ message: 'Sai mật khẩu.' });
+        }
+
+    if (admin.role !== "admin") {
+        return res.status(403).json({ message: 'Bạn không có quyền truy cập.' });
+    }
+
+  
+    const token = jwt.sign(
+        { 
+            id: admin.id,
+            fullname: admin.fullname,
+            role: admin.role,
+        }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: '1d' }
+    );
+
+    admin.token = token;
+    await admin.save();
+    
+    // Lưu token vào cookie
+    res.cookie("token", token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,  
+        secure: true     
+    });
+
+    res.status(200).json({
+        message: "Đăng nhập thành công!",
+        user: admin.fullname,
+        role: admin.role,
+        token: admin.token,
+    });
 };
+
+
 
 
 const logout = async (req, res) => {
-  try {
-    res.clearCookie("token");
-    res.status(200).json({
-      message: "Đăng xuất thành công!",
-    })
-  } catch (error) {
-    res.status(400).json({
-      message: "Error!",
-      error: error.message
-    })
-  }
+    try {
+        res.clearCookie("token");
+        res.status(200).json({
+            message : "Đăng xuất thành công!",
+        })
+    } catch (error) {
+        res.status(400).json({
+            message : "Error!",
+            error : error.message
+        })
+    } 
 }
 
 
 
 module.exports = {
-  create_admin_account,
-  login,
-  logout,
-  verifyToken
+    create_admin_account,
+    login,
+    logout
 };

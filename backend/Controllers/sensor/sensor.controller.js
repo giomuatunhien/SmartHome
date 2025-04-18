@@ -66,7 +66,7 @@ const deleteSensor = async (req, res) => {
 
 const updateSensor = async (req, res) => {
   try {
-    const { sensorID } = req.query;
+    const { sensorID }= req.query;
     // const updateData  = req.body;
 
     if (!sensorID) {
@@ -94,49 +94,22 @@ const updateSensor = async (req, res) => {
   }
 };
 
-// const getsensorData = async (obj) => {
-//   try {
-//     console.log(obj)
-//     const newRecord = new Envdat(obj);
-//     await newRecord.save();
-
-//     console.log('Đã lưu dữ liệu từ cảm biến:', newRecord);
-//   } catch (error) {
-//     console.error('Lỗi khi lưu dữ liệu từ cảm biến:', error);
-//   }
-// };
-
-const setsensorData = async (obj) => {
+const getsensorData = async (obj) => {
   try {
-    console.log(obj);
-    const { systemID, sensorID, value, timestamp } = obj;
-
-    if (!systemID || !sensorID || value === undefined) {
-      console.error("Thiếu thông tin systemID, sensorID hoặc value.");
-      return;
-    }
-
-    // Tạo mới dữ liệu môi trường, không cần kiểm tra trùng lặp
-    const newRecord = new Envdat({
-      systemID,
-      sensorID,
-      value,
-      timestamp: timestamp || Date.now()  // Nếu không có timestamp thì lấy thời gian hiện tại
-    });
-
+    console.log(obj)
+    const newRecord = new Envdat(obj);
     await newRecord.save();
-    console.log("Đã lưu dữ liệu cảm biến mới:", newRecord);
+
+    console.log('Đã lưu dữ liệu từ cảm biến:', newRecord);
   } catch (error) {
-    console.error("Lỗi khi lưu dữ liệu từ cảm biến:", error);
+    console.error('Lỗi khi lưu dữ liệu từ cảm biến:', error);
   }
 };
 
-
-
 module.exports = {
-  addSensor,
-  getSensor,
-  deleteSensor,
-  updateSensor,
-  setsensorData
+    addSensor,
+    getSensor,
+    deleteSensor,
+    updateSensor,
+    getsensorData
 };

@@ -3,7 +3,7 @@ const Envdat = require('../../models/environment.model');
 const addData = async (req, res) => {
   try {
     const { value, timestamp, systemID, sensorID } = req.body;
-    if (!value || !systemID || !sensorID /*||!timestamp*/) {
+    if ( !value || !systemID || !sensorID /*||!timestamp*/) {
       return res.status(400).json({ message: 'Vui lòng cung cấp đầy đủ thông tin envdat.' });
     }
 
@@ -21,7 +21,7 @@ const getData = async (req, res) => {
   try {
     const { envdatID } = req.query; // Lấy envdatID nếu có
     // console.log(req)
-    //console.log(envdatID)
+    console.log(envdatID)
     let envdats;
 
     if (envdatID) {
@@ -65,7 +65,7 @@ const deleteData = async (req, res) => {
 
 const updateData = async (req, res) => {
   try {
-    const { envdatID } = req.query;
+    const { envdatID }= req.query;
     // const updateData  = req.body;
 
     if (!envdatID) {
@@ -94,8 +94,8 @@ const updateData = async (req, res) => {
 };
 
 module.exports = {
-  addData,
-  getData,
-  deleteData,
-  updateData
+    addData,
+    getData,
+    deleteData,
+    updateData
 };
