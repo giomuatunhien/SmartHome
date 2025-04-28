@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+
+// Import các ảnh banner
+import banner1 from '../../img/banner1.jpg';
+import banner2 from '../../img/banner2.jpg';
+import yoloLogo from '../../img/yolo.png';
+
 
 const Login = ({ setIsLoggedIn }) => {
   const [showRoleModal, setShowRoleModal] = useState(false);
@@ -9,7 +15,19 @@ const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [currentBanner, setCurrentBanner] = useState(0); // Quản lý ảnh nền hiện tại
   const navigate = useNavigate();
+
+  // Danh sách các ảnh banner
+  const banners = [banner1, banner2];
+
+  // Tự động chuyển đổi ảnh nền mỗi 5 giây
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000); // Chuyển đổi mỗi 5 giây
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+  }, [banners.length]);
 
   // Dữ liệu người dùng giả lập
   const mockUsers = {
@@ -47,10 +65,9 @@ const Login = ({ setIsLoggedIn }) => {
     const user = users.find((u) => u.email === email && u.password === password);
 
     if (user) {
-      // Mô phỏng lưu token và cập nhật trạng thái đăng nhập
-      localStorage.setItem('token', 'mock-token'); // Token giả lập
-      setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
-      navigate('/home'); // Điều hướng đến trang Home
+      localStorage.setItem('token', 'mock-token');
+      setIsLoggedIn(true);
+      navigate('/home');
     } else {
       setError('Email hoặc mật khẩu không đúng!');
     }
@@ -60,9 +77,11 @@ const Login = ({ setIsLoggedIn }) => {
     <div className="login-container">
       {/* Header */}
       <header className="header">
-        <div className="logo">
-          <span role="img" aria-label="house">🏠</span> YOLO Home
-        </div>
+      <div className="logo">
+      <img src={yoloLogo} alt="YOLO Home" className="logo-img" />
+      YOLO Home
+</div>
+
         <nav className="nav">
           <a href="#news">News</a>
           <a href="#about">About</a>
@@ -73,19 +92,32 @@ const Login = ({ setIsLoggedIn }) => {
         </nav>
       </header>
 
-      {/* Hero Section với ảnh nền */}
+      {/* Hero Section với ảnh nền chuyển đổi */}
       <section className="hero">
-        <div className="hero-background" />
+        <div
+          className="hero-background"
+          style={{ backgroundImage: `url(${banners[currentBanner]})` }}
+        />
+        <div className="hero-content">
+          <h1>Welcome to YOLO Home</h1>
+          <p>Control your smart home with ease and style.</p>
+        </div>
       </section>
 
       {/* Modal chọn vai trò */}
       {showRoleModal && (
         <div className="modal-overlay">
-          <div className="role-modal">
+          <div className="role-modal animate-modal">
             <h2>Login as:</h2>
-            <button onClick={() => handleRoleSelect('Admin')}>Admin</button>
-            <button onClick={() => handleRoleSelect('Member')}>Member</button>
-            <button onClick={() => setShowRoleModal(false)}>Cancel</button>
+            <button className="role-btn" onClick={() => handleRoleSelect('Admin')}>
+              Admin
+            </button>
+            <button className="role-btn" onClick={() => handleRoleSelect('Member')}>
+              Member
+            </button>
+            <button className="cancel-btn" onClick={() => setShowRoleModal(false)}>
+              Cancel
+            </button>
           </div>
         </div>
       )}
@@ -93,7 +125,7 @@ const Login = ({ setIsLoggedIn }) => {
       {/* Modal đăng nhập */}
       {showLoginModal && (
         <div className="modal-overlay">
-          <div className="login-modal">
+          <div className="login-modal animate-modal">
             <h2>Login your account!</h2>
             {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleLoginSubmit}>

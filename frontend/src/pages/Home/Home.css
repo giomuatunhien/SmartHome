@@ -2,7 +2,7 @@
   flex: 1;
   background: linear-gradient(to bottom, #e0f7fa, #ffffff);
   padding: 30px;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,13 +12,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px; /* Tăng khoảng cách để thoáng hơn */
   width: 100%;
   max-width: 1200px;
 }
 
 .main-header h1 {
-  font-size: 28px;
+  font-size: 32px; /* Tăng kích thước tiêu đề */
   color: #2c3e50;
   font-weight: 700;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
@@ -28,7 +28,7 @@
   padding: 12px;
   border: 2px solid #3498db;
   border-radius: 25px;
-  width: 250px;
+  width: 300px; /* Tăng chiều rộng thanh tìm kiếm */
   font-size: 16px;
   background-color: #ffffff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@
 .header-icons {
   display: flex;
   gap: 20px;
-  font-size: 24px;
+  font-size: 28px; /* Tăng kích thước icon */
 }
 
 .header-icons span {
@@ -60,97 +60,103 @@
 
 /* Dashboard */
 .dashboard {
-  display: flex;
-  gap: 30px;
   width: 100%;
   max-width: 1200px;
 }
 
-.env-container {
-  flex: 2;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+/* Container chính cho dashboard */
+.dashboard-container {
+  display: flex;
+  gap: 30px;
+  width: 100%;
 }
 
-.env-card {
+/* Ô vuông lớn chứa 4 ô nhỏ */
+.env-grid {
+  flex: 3; /* Chiếm 3/4 chiều rộng */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Lưới 2x2 */
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  height: 500px; /* Tăng chiều cao để lấp đầy trang */
+}
+
+/* Ô thông tin chung */
+.info-card {
   background: linear-gradient(135deg, #ffffff, #ecf0f1);
   border-radius: 15px;
   padding: 20px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.env-card:hover {
+.info-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.env-label {
-  display: block;
-  font-size: 18px;
+/* Icon cho các ô thông tin */
+.info-icon {
+  width: 160px; /* Tăng kích thước icon */
+  height: 160px;
+  object-fit: contain;
+}
+
+/* Nội dung trong ô thông tin */
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-label {
+  font-size: 18px; /* Tăng kích thước chữ */
   color: #2c3e50;
   font-weight: 600;
-  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
-.env-value {
-  font-size: 24px;
-  color: #e74c3c;
+.info-value {
+  font-size: 24px; /* Tăng kích thước giá trị */
   font-weight: 700;
-  background: linear-gradient(90deg, #e74c3c, #c0392b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 /* Màu sắc riêng cho từng ô */
-.env-card:nth-child(1) {
+.temperature-card {
   background: linear-gradient(135deg, #ffffff, #d5f5e3);
 }
-.env-card:nth-child(1) .env-value {
-  background: linear-gradient(90deg, #27ae60, #219653);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.temperature-card .info-value {
+  color: #27ae60;
 }
 
-.env-card:nth-child(2) {
+.humidity-card {
   background: linear-gradient(135deg, #ffffff, #f5e6cb);
 }
-.env-card:nth-child(2) .env-value {
-  background: linear-gradient(90deg, #f39c12, #e67e22);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.humidity-card .info-value {
+  color: #f39c12;
 }
 
-.env-card:nth-child(3) {
+.light-card {
   background: linear-gradient(135deg, #ffffff, #e8f5e9);
 }
-.env-card:nth-child(3) .env-value {
-  background: linear-gradient(90deg, #8e44ad, #9b59b6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.light-card .info-value {
+  color: #8e44ad;
 }
 
-.env-card:nth-child(4) {
+.time-card {
   background: linear-gradient(135deg, #ffffff, #f0f4c3);
 }
-.env-card:nth-child(4) .env-value {
-  background: linear-gradient(90deg, #16a085, #1abc9c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.time-card .info-value {
+  color: #16a085;
 }
 
-/* Smart Door Control */
-.door-control {
-  flex: 1;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+/* Ô Smart Door */
+.door-card {
+  flex: 1; /* Chiếm 1/4 chiều rộng */
+  background: linear-gradient(135deg, #ffffff, #ffebee);
   border-radius: 15px;
   padding: 20px;
   display: flex;
@@ -158,65 +164,36 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.door-control:hover {
-  transform: translateY(-5px);
-}
-
-.door-label {
-  font-size: 20px;
-  color: #ffffff;
-  font-weight: 600;
-  margin-bottom: 15px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Toggle Switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 500px; /* Kéo dài chiều dọc để lấp đầy trang */
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #bdc3c7;
-  transition: 0.4s;
-  border-radius: 34px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.slider:before {
-  position: absolute;
-  content: '';
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: #ffffff;
-  transition: 0.4s;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.door-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-input:checked + .slider {
-  background-color: #3498db;
+.door-icon {
+  width: 160px; /* Tăng kích thước icon cửa */
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 20px;
 }
 
-input:checked + .slider:before {
-  transform: translateX(26px);
+.door-card .info-content {
+  text-align: center;
+}
+
+.door-card .info-label {
+  font-size: 20px; /* Tăng kích thước chữ */
+  color: #2c3e50;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.door-card .info-value {
+  font-size: 24px; /* Tăng kích thước giá trị */
+  color: #e74c3c;
+  font-weight: 700;
 }

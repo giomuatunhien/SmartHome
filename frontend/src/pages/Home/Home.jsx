@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import nhietdoIcon from '../../img/nhietdo.png';
+import doamIcon from '../../img/doam.png';
+import anhsangIcon from '../../img/anhsang.png';
+import timeIcon from '../../img/time.png';
+import openDoorIcon from '../../img/opendoor.png';
+import closeDoorIcon from '../../img/closedoor.png';
 
 const Home = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
   const navigate = useNavigate();
@@ -14,7 +20,7 @@ const Home = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // Xử lý khi click vào toggle Smart Door
+  // Xử lý khi click vào ô Smart Door
   const handleDoorToggle = () => {
     if (isDoorOn) {
       // Nếu cửa đang mở, đóng cửa ngay lập tức
@@ -32,44 +38,62 @@ const Home = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
         </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
-        </div>
+
       </header>
 
       <section className="dashboard">
-        {/* Environment Cards */}
-        <div className="env-container">
-          <div className="env-card">
-            <span className="env-label">Nhiệt độ</span>
-            <span className="env-value">24°C</span>
-          </div>
-          <div className="env-card">
-            <span className="env-label">Độ ẩm</span>
-            <span className="env-value">18%</span>
-          </div>
-          <div className="env-card">
-            <span className="env-label">Ánh sáng</span>
-            <span className="env-value">20%</span>
-          </div>
-          <div className="env-card">
-            <span className="env-label">Thời gian</span>
-            <span className="env-value">{currentTime.toLocaleTimeString()}</span>
-          </div>
-        </div>
+        <div className="dashboard-container">
+          {/* Ô vuông lớn chứa 4 ô nhỏ */}
+          <div className="env-grid">
+            {/* Nhiệt độ */}
+            <div className="info-card temperature-card">
+              <img src={nhietdoIcon} alt="Temperature Icon" className="info-icon" />
+              <div className="info-content">
+                <span className="info-label">Nhiệt độ</span>
+                <span className="info-value">24°C</span>
+              </div>
+            </div>
 
-        {/* Smart Door Control */}
-        <div className="door-control">
-          <span className="door-label">Smart Door</span>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={isDoorOn}
-              onChange={handleDoorToggle}
+            {/* Độ ẩm */}
+            <div className="info-card humidity-card">
+              <img src={doamIcon} alt="Humidity Icon" className="info-icon" />
+              <div className="info-content">
+                <span className="info-label">Độ ẩm</span>
+                <span className="info-value">18%</span>
+              </div>
+            </div>
+
+            {/* Ánh sáng */}
+            <div className="info-card light-card">
+              <img src={anhsangIcon} alt="Light Icon" className="info-icon" />
+              <div className="info-content">
+                <span className="info-label">Ánh sáng</span>
+                <span className="info-value">20%</span>
+              </div>
+            </div>
+
+            {/* Thời gian */}
+            <div className="info-card time-card">
+              <img src={timeIcon} alt="Time Icon" className="info-icon" />
+              <div className="info-content">
+                <span className="info-label">Thời gian</span>
+                <span className="info-value">{currentTime.toLocaleTimeString()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Smart Door */}
+          <div className="door-card" onClick={handleDoorToggle}>
+            <img
+              src={isDoorOn ? openDoorIcon : closeDoorIcon}
+              alt={isDoorOn ? 'Open Door' : 'Close Door'}
+              className="door-icon"
             />
-            <span className="slider round"></span>
-          </label>
+            <div className="info-content">
+              <span className="info-label">Smart Door</span>
+              <span className="info-value">{isDoorOn ? 'Opened' : 'Closed'}</span>
+            </div>
+          </div>
         </div>
       </section>
     </main>

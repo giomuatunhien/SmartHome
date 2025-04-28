@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Door.css';
+import faceAiIcon from '../../img/faceai.png';
 
 const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
   const navigate = useNavigate();
@@ -13,6 +14,11 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordChangeError, setPasswordChangeError] = useState('');
+  const [showFaceUpdateModal, setShowFaceUpdateModal] = useState(false);
+  const [facePassword, setFacePassword] = useState('');
+  const [facePasswordError, setFacePasswordError] = useState('');
+  const [showUploadFaceModal, setShowUploadFaceModal] = useState(false);
+  const [faceImages, setFaceImages] = useState([null, null]);
 
   // Xử lý nhập mật mã
   const handlePasswordChange = (e) => {
@@ -89,6 +95,52 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
     setPasswordChangeError('');
   };
 
+  // Xử lý nhập mật khẩu để cập nhật khuôn mặt
+  const handleFacePasswordSubmit = () => {
+    if (facePassword === '112233') {
+      setFacePasswordError('');
+      setShowFaceUpdateModal(false);
+      setShowUploadFaceModal(true);
+    } else {
+      setFacePasswordError('Mật mã không đúng!');
+    }
+  };
+
+  // Đóng modal nhập mật khẩu cập nhật khuôn mặt
+  const closeFaceUpdateModal = () => {
+    setShowFaceUpdateModal(false);
+    setFacePassword('');
+    setFacePasswordError('');
+  };
+
+  // Xử lý upload ảnh khuôn mặt
+  const handleImageUpload = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      const newImages = [...faceImages];
+      newImages[index] = imageUrl;
+      setFaceImages(newImages);
+    }
+  };
+
+  // Xử lý lưu ảnh khuôn mặt
+  const handleSaveFaceImages = () => {
+    if (faceImages[0] && faceImages[1]) {
+      alert('Cập nhật khuôn mặt thành công!');
+      setShowUploadFaceModal(false);
+      setFaceImages([null, null]);
+    } else {
+      alert('Vui lòng tải lên cả 2 ảnh!');
+    }
+  };
+
+  // Đóng modal upload ảnh khuôn mặt
+  const closeUploadFaceModal = () => {
+    setShowUploadFaceModal(false);
+    setFaceImages([null, null]);
+  };
+
   return (
     <main className="main-content">
       <header className="main-header">
@@ -96,46 +148,51 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
         </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
-        </div>
       </header>
 
       <section className="door-control-section">
         {/* Door Control Form */}
         <div className="door-control-form">
-          <div className="door-status">
-            <span>{isDoorOn ? 'Mở cửa' : 'Đóng cửa'}</span>
-            <span role="img" aria-label="door-status">{isDoorOn ? '🔓' : '🔒'}</span>
+          <div className="door-status-section">
+            <div className="door-status">
+              <span>{isDoorOn ? 'Cửa đang mở' : 'Cửa đang đóng'}</span>
+              <span role="img" aria-label="door-status">{isDoorOn ? '🔓' : '🔒'}</span>
+            </div>
           </div>
-          <div className="password-input">
-            <label>Nhập mật mã</label>
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="******"
-            />
-            {error && <span className="error">{error}</span>}
+          <div className="password-section">
+            <div className="password-input">
+              <label>Nhập mật mã</label>
+              <input
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="******"
+              />
+              {error && <span className="error">{error}</span>}
+            </div>
+            <button onClick={handleOpenDoor} className="open-door-btn">
+              Mở cửa
+            </button>
           </div>
-          <button onClick={handleOpenDoor} className="open-door-btn">
-            Mở cửa
-          </button>
-          <button onClick={handleFaceAI} className="face-ai-btn">
-            Face AI
-          </button>
-          <button onClick={() => setShowChangePasswordModal(true)} className="change-password-btn">
-            Đổi mật khẩu
-          </button>
+          <div className="face-ai-section">
+            <img src={faceAiIcon} alt="Face AI Icon" className="face-ai-icon" />
+            <button onClick={handleFaceAI} className="face-ai-btn">
+              Face AI
+            </button>
+          </div>
+          <div className="settings-section">
+            <button onClick={() => setShowChangePasswordModal(true)} className="settings-btn">
+              Đổi mật khẩu
+            </button>
+            <button onClick={() => setShowFaceUpdateModal(true)} className="settings-btn">
+              Cập nhật khuôn mặt
+            </button>
+          </div>
         </div>
 
         {/* History Section */}
         <div className="history-section">
           <h2>Lịch sử mở cửa</h2>
-          <div className="history-status">
-            <span>Tắt</span>
-          </div>
           <table className="history-table">
             <thead>
               <tr>
@@ -154,7 +211,9 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
                   <td>{item.id}</td>
                   <td>{item.method}</td>
                   <td>{item.date}</td>
-                  <td>{item.status}</td>
+                  <td className={item.status === 'Thành công' ? 'status-success' : 'status-fail'}>
+                    {item.status}
+                  </td>
                   <td>
                     <span
                       role="img"
@@ -221,17 +280,79 @@ const Door = ({ setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
               />
               {passwordChangeError && <span className="error">{passwordChangeError}</span>}
             </div>
-            <div className="face-ai-option">
-              <label>Cập nhật khuôn mặt</label>
-              <button onClick={handleFaceAI} className="update-face-btn">
-                Cập nhật khuôn mặt
-              </button>
-            </div>
             <div className="modal-buttons">
               <button onClick={handleChangePassword} className="save-password-btn">
                 Lưu
               </button>
               <button onClick={closeChangePasswordModal} className="cancel-password-btn">
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal nhập mật khẩu để cập nhật khuôn mặt */}
+      {showFaceUpdateModal && (
+        <div className="modal-overlay">
+          <div className="face-update-modal">
+            <h2>Xác nhận mật khẩu</h2>
+            <div className="password-fields">
+              <label>Nhập mật khẩu cửa hiện tại</label>
+              <input
+                type="password"
+                value={facePassword}
+                onChange={(e) => setFacePassword(e.target.value)}
+                placeholder="******"
+              />
+              {facePasswordError && <span className="error">{facePasswordError}</span>}
+            </div>
+            <div className="modal-buttons">
+              <button onClick={handleFacePasswordSubmit} className="save-password-btn">
+                Xác nhận
+              </button>
+              <button onClick={closeFaceUpdateModal} className="cancel-password-btn">
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal upload ảnh khuôn mặt */}
+      {showUploadFaceModal && (
+        <div className="modal-overlay">
+          <div className="upload-face-modal">
+            <h2>Cập nhật khuôn mặt</h2>
+            <div className="upload-image-section">
+              <div className="image-upload">
+                <label>Hình ảnh 1</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(0, e)}
+                />
+                {faceImages[0] && (
+                  <img src={faceImages[0]} alt="Face 1" className="preview-image" />
+                )}
+              </div>
+              <div className="image-upload">
+                <label>Hình ảnh 2</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(1, e)}
+                />
+                {faceImages[1] && (
+                  <img src={faceImages[1]} alt="Face 2" className="preview-image" />
+                )}
+              </div>
+            </div>
+            <div className="modal-buttons">
+              <button onClick={handleSaveFaceImages} className="save-password-btn">
+                Lưu
+              </button>
+              <button onClick={closeUploadFaceModal} className="cancel-password-btn">
                 Hủy
               </button>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Menu from './pages/Menu/Menu';
 import Home from './pages/Home/Home';
@@ -10,14 +10,45 @@ import ChartConfig from './pages/ChartConfig/ChartConfig';
 import DevicesConfig from './pages/DevicesConfig/DevicesConfig';
 import Voice from './pages/Voice/Voice';
 import VoiceCommandList from './pages/Voice/VoiceCommandList';
+import Notification from './pages/Notification/Notification';
 import './App.css';
 
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDoorOn, setIsDoorOn] = useState(false);
 
   return (
     <Router>
+      <AppContent
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        isDoorOn={isDoorOn}
+        setIsDoorOn={setIsDoorOn}
+      />
+    </Router>
+  );
+};
+
+const AppContent = ({ isLoggedIn, setIsLoggedIn, isDoorOn, setIsDoorOn }) => {
+  const navigate = useNavigate();
+
+  const handleNotificationClick = () => {
+    navigate('/notifications');
+  };
+
+  return (
+    <>
+      {isLoggedIn && (
+        <div className="fixed-notification">
+          <span
+            role="img"
+            aria-label="notifications"
+            onClick={handleNotificationClick}
+          >
+            🔔
+          </span>
+        </div>
+      )}
       <Routes>
         <Route
           path="/"
@@ -104,7 +135,7 @@ function App() {
           }
         />
         <Route
-          path="/smart-voice" 
+          path="/smart-voice"
           element={
             isLoggedIn ? (
               <div className="app-container">
@@ -129,9 +160,22 @@ function App() {
             )
           }
         />
+        <Route
+          path="/notifications"
+          element={
+            isLoggedIn ? (
+              <div className="app-container">
+                <Menu setIsLoggedIn={setIsLoggedIn} />
+                <Notification />
+              </div>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
       </Routes>
-    </Router>
+    </>
   );
-}
+};
 
 export default App;

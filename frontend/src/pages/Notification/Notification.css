@@ -1,0 +1,93 @@
+.main-content {
+    flex: 1;
+    background: linear-gradient(to bottom, #f5e6e6, #ffffff);
+    padding: 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .main-header h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-bar input {
+    padding: 12px;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    width: 250px;
+    font-size: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .search-bar input:focus {
+    border-color: #2980b9;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    outline: none;
+  }
+  
+  /* Notification Section */
+  .notification-section {
+    background: linear-gradient(135deg, #ffffff, #f5f7fa);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .notification-section:hover {
+    transform: translateY(-5px);
+  }
+  
+  .notification-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2c3e50;
+    font-weight: 700;
+  }
+  
+  .notification-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .notification-table th,
+  .notification-table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+    transition: background 0.3s ease;
+  }
+  
+  .notification-table th {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    color: white;
+    font-weight: 700;
+  }
+  
+  .notification-table td {
+    font-size: 14px;
+    color: #2c3e50;
+  }
+  
+  .notification-table tr:hover {
+    background-color: #f0f4f8;
+  }

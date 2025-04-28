@@ -9,7 +9,7 @@ const Environment = ({ setIsLoggedIn }) => {
   // State để quản lý toggle switch
   const [fanOn, setFanOn] = useState(false);
   const [lightOn, setLightOn] = useState(false);
-  const [acOn, setAcOn] = useState(false);
+
 
   // Cập nhật thời gian thực tế mỗi giây
   useEffect(() => {
@@ -41,10 +41,7 @@ const Environment = ({ setIsLoggedIn }) => {
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
         </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
-        </div>
+
       </header>
 
       <section className="environment-section">
@@ -115,17 +112,7 @@ const Environment = ({ setIsLoggedIn }) => {
                 <span className="slider round"></span>
               </label>
             </div>
-            <div className="control-item">
-              <span className="control-label">Điều hòa</span>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={acOn}
-                  onChange={() => setAcOn(!acOn)}
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
+
           </div>
           <button className="view-details-btn" onClick={handleDeviceDetail}>
             Xem chi tiết

@@ -16,10 +16,7 @@ const VoiceCommandList = ({ setIsLoggedIn }) => {
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
         </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
-        </div>
+
       </header>
 
       <section className="command-section">

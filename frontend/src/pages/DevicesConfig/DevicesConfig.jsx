@@ -55,10 +55,7 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
         </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
-        </div>
+
       </header>
 
       <section className="devices-config-section">
@@ -101,25 +98,7 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
               /> %
             </div>
           </div>
-          <div className="device-item">
-            <h3>Điều hòa</h3>
-            <div className="threshold-row">
-              <label>Ngưỡng bật: </label>
-              <input
-                type="number"
-                value={acThresholds.on}
-                onChange={(e) => handleAcChange('on', e.target.value)}
-              /> %
-            </div>
-            <div className="threshold-row">
-              <label>Ngưỡng tắt: </label>
-              <input
-                type="number"
-                value={acThresholds.off}
-                onChange={(e) => handleAcChange('off', e.target.value)}
-              /> %
-            </div>
-          </div>
+
           <div className="config-actions">
             <button className="save-btn" onClick={handleBack}>
               Quay lại
