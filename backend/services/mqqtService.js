@@ -10,56 +10,25 @@ const client = mqtt.connect(MQTT_BROKER_URL, {
 });
 
 client.on('connect', () => {
-  console.log('Connected to Adafruit IO MQTT Broker!');
-
-  const FEED_SUBSCRIBE = `${ADAFRUIT_USERNAME}/feeds/DAT_LED`;
-  client.subscribe(FEED_SUBSCRIBE, (err) => {
-    if (!err) {
-      console.log(`Subscribed to feed: ${FEED_SUBSCRIBE}`);
-    } else {
-      console.error('Subscribe error:', err);
-    }
-  });
+  console.log('Đã kết nối tới Adafruit IO MQTT Broker');
 });
 
-
-
-client.on('message', (topic, message) => {
-  console.log(`Received message from ${topic}: ${message.toString()}`);
+client.on('error', (err) => {
+  console.error('MQTT Error:', err);
 });
 
-client.on('error', (error) => {
-  console.error('MQTT error:', error);
-});
-
-
-function publishCommandLed(payload) {
-  const FEED_PUBLISH = `${ADAFRUIT_USERNAME}/feeds/DAT_LED`;
+function publishToFeed(feed, payload) {
+  const FEED_PUBLISH = `${ADAFRUIT_USERNAME}/feeds/${feed}`;
   client.publish(FEED_PUBLISH, payload, (err) => {
     if (err) {
-      console.error('Error publishing command:', err);
+      console.error('Lỗi gửi MQTT:', err);
     } else {
-      console.log(`Published payload: ${payload} to ${FEED_PUBLISH}`);
+      console.log(`Đã gửi ${payload} đến ${FEED_PUBLISH}`);
     }
   });
 }
-
-
-
-function publishCommandFan(payload) {
-  const FEED_PUBLISH = `${ADAFRUIT_USERNAME}/feeds/DAT_FAN`;
-  client.publish(FEED_PUBLISH, payload, (err) => {
-    if (err) {
-      console.error('Error publishing command:', err);
-    } else {
-      console.log(`Published payload: ${payload} to ${FEED_PUBLISH}`);
-    }
-  });
-}
-
 
 module.exports = {
   initMQTT: () => client,
-  publishCommandLed,
-  publishCommandFan
+  publishToFeed
 };

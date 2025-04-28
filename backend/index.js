@@ -7,6 +7,9 @@ dotenv.config();
 require('dotenv').config();
 const database = require('./config/mongoDB.database');
 
+const { spawn } = require('child_process');
+const waitPort = require('wait-port');
+const fs = require('fs');
 const clientRoute = require('./routes/member/index.route');
 const adminRoute = require('./routes/admin/index.route');
 const smart_door_Route = require('./routes/smart_door/index.route');
@@ -46,7 +49,47 @@ sensorService.initMQTT();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
+
+
+// Đoạn này nó đang khởi động 1 dịch vụ Python trên background khi chương trình chạy (chạy nầm cái fastapifastapi)
+const pythonExe = process.env.PYTHON_PATH;
+// đường dẫn tới file embed_service.py
+const mlScript = process.env.ML_SCRIPT_PATH;
+const ML_PORT = 8000;
+async function startMLService() {
+  if (!fs.existsSync(mlScript)) {
+    console.error('Python script not found at:', mlScript);  
+    process.exit(1);
+  }
+  const mlProcess = spawn(pythonExe, [mlScript], {
+    cwd: path.dirname(mlScript),
+    stdio: 'inherit',
+    env: {
+      ...process.env,       
+      PORT: '8000'         
+    }
+  });
+  mlProcess.unref();
+  console.log('ML service started in background');
+  console.log('Waiting for ML service to be ready...');
+  const portOpen = await waitPort({ host: 'localhost', port: ML_PORT, timeout: 30000 });
+  if (portOpen) {
+    console.log('ML service is ready!');
+  } else {
+    console.error('ML service failed to start.');
+    process.exit(1);
+  }
+}
+startMLService(); 
+
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
+
+  // API doc 
+   console.log(`API Docs (Swagger) available at: http://localhost:${port}/api-docs`);
 })
+
+
+
+
 
