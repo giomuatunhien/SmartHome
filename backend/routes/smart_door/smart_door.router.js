@@ -16,5 +16,11 @@ router.post('/close', authenticateToken, controller.closeDoor)
 
 router.get('/status', controller.getDoorStatus)
 
+router.get('/getDoorHistory', controller.getDoorHistory)
+
+router.post('/authorFaceAI', controller.authorFaceAI)
+
+router.post('/accessDoorByFaceAI', authenticateToken, controller.accessDoorByFaceAI)
+
 
 module.exports = router;

@@ -16,4 +16,6 @@ router.get('/search', controller.search_device);
 
 router.post('/controlDevice', controller.controlDevice);
 
+router.get('/getDeviceHistory', controller.getDeviceHistory);
+
 module.exports = router;

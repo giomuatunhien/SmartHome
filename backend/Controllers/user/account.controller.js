@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+const UserModel = require("../../models/user.model")
 
 const verifyToken = (req, res) => {
     const token = req.cookies.token;  // Đọc token từ cookie
@@ -34,9 +34,84 @@ const logout = async (req, res) => {
     }
 }
 
+const getUser = async (req, res) => {
+    try {
+        const { userid } = req.params;
+        if (!userid) {
+            return res.status(400).json({
+                message: "User ID không hợp lệ!"
+            });
+        }
+        const user = await UserModel.findById(userid);
+        res.status(200).json({
+            message: "Lấy thông tin người dùng thành công!",
+            data: user
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: "Lỗi khi lấy thông tin người dùng!",
+            error: error.message
+        });
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const { userid } = req.params;
+        if (!userid) {
+            return res.status(400).json({ message: "User ID không hợp lệ!" });
+        }
+
+        // Lọc ra những field được phép update
+        const allowedFields = ['fullname', 'email', 'phone'];
+        const updates = {};
+        for (let key of allowedFields) {
+            if (req.body[key] !== undefined) {
+                updates[key] = req.body[key];
+            }
+        }
+
+        // Nếu có file ảnh thì xử lý thêm imageData
+        if (req.file) {
+            updates.imageData = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype
+            };
+        }
+
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ message: "Không có dữ liệu hợp lệ để cập nhật!" });
+        }
+
+        // Thực hiện cập nhật
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userid,
+            { $set: updates },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "Không tìm thấy người dùng!" });
+        }
+
+        res.status(200).json({
+            message: "Cập nhật thông tin người dùng thành công!",
+            data: updatedUser
+        });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật người dùng:', error);
+        res.status(500).json({
+            message: "Lỗi khi cập nhật thông tin người dùng!",
+            error: error.message
+        });
+    }
+};
+
 
 
 module.exports = {
     logout,
-    verifyToken
+    verifyToken,
+    getUser,
+    updateUser
 };

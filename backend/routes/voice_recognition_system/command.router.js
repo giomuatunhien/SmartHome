@@ -9,6 +9,12 @@ const authorizeRoles = require("../../middlewares/authRoles.middleware");
 
 router.post("/add_command", authenticateToken, authorizeRoles(), controller.addCommand);
 
+router.post("/compare", controller.compareTranscriptAndPublish);
+
+router.get("/getCommands", controller.getCommands);
+
+router.delete('/deleteCommands/:id', controller.deleteCommand);
+
 
 
 module.exports = router;

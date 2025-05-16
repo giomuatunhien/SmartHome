@@ -1,6 +1,8 @@
 const Device = require('../../models/device.model');
 const mongoose = require('mongoose');
 const deviceService = require('../../services/deviceService')
+const DeviceHistory = require('../../models/device_history'); // import model lịch sử
+
 
 // Tạo thiết bị mới
 const create_device = async (req, res) => {
@@ -157,7 +159,7 @@ const search_device = async (req, res) => {
 
 const controlDevice = async (req, res) => {
     try {
-        const { device, newStatus } = req.body;
+        const { device, newStatus, userId } = req.body;
         if (!device || !newStatus) {
             return res.status(400).json({ error: "Thiếu thông tin device hoặc newStatus!" });
         }
@@ -174,23 +176,79 @@ const controlDevice = async (req, res) => {
         }
 
         // Cập nhật trạng thái và speed của quạt trong database nếu là quạt
+        let updatedDevice;
         if (device === "fan") {
-            await Device.findOneAndUpdate(
+            updatedDevice = await Device.findOneAndUpdate(
                 { type: "fan" }, // Tìm quạt trong database
                 { status: newStatus, speed: speed }, // Cập nhật trạng thái và tốc độ
             );
         } else {
-            await Device.findOneAndUpdate(
+            updatedDevice = await Device.findOneAndUpdate(
                 { type: device },
                 { status: newStatus },
             );
         }
+        // Ghi lịch sử vào DeviceHistory
+        if (updatedDevice) {
+            const action = newStatus;
+            const notes = device === 'fan'
+                ? `Speed set to ${speed}`
+                : `Status set to ${newStatus}`;
 
+            await DeviceHistory.create({
+                device: updatedDevice._id,
+                deviceModel: device,
+                action: action,
+                notes: notes,
+                userId: userId || null
+            });
+        }
         res.status(200).json({ message: `Đã gửi lệnh '${newStatus}' tới thiết bị '${device}'` });
 
     } catch (error) {
         console.error("Lỗi khi điều khiển thiết bị:", error);
         res.status(500).json({ error: "Lỗi server trong quá trình điều khiển thiết bị!" });
+    }
+};
+
+const getDeviceHistory = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 8;
+        const { deviceModel, deviceId } = req.query;
+        // Build filter object
+        const filter = {};
+        if (deviceModel) filter.deviceModel = deviceModel;
+        if (deviceId) filter.device = deviceId;
+
+        // Count total matching records
+        const totalRecords = await DeviceHistory.countDocuments(filter);
+        const totalPages = Math.max(Math.ceil(totalRecords / limit), 1);
+
+        // Fetch paginated history, newest first
+        const historyList = await DeviceHistory.find(filter)
+            .sort({ timestamp: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .populate({ path: 'userId', select: 'fullname' })
+            .lean();
+
+        return res.status(200).json({
+            success: true,
+            data: historyList,
+            pagination: {
+                page,
+                limit,
+                totalPages,
+                totalRecords
+            }
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy device history:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Lỗi server khi lấy lịch sử device.'
+        });
     }
 };
 
@@ -202,5 +260,6 @@ module.exports = {
     update_device,
     delete_device,
     search_device,
-    controlDevice
+    controlDevice,
+    getDeviceHistory
 };

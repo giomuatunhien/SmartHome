@@ -5,12 +5,12 @@ import './Environment.css';
 
 const Environment = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  //const [currentTime, setCurrentTime] = useState(new Date());
 
   // State để quản lý toggle switch
   const [fanOn, setFanOn] = useState(false);
   const [lightOn, setLightOn] = useState(false);
-  const [acOn, setAcOn] = useState(false);
+  //const [acOn, setAcOn] = useState(false);
   const [countdown, setCountdown] = useState(5);
   //đếm countdown
   useEffect(() => {
@@ -29,13 +29,13 @@ const Environment = ({ setIsLoggedIn }) => {
 
 
 
-  // Cập nhật thời gian thực tế mỗi giây
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // // Cập nhật thời gian thực tế mỗi giây
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCurrentTime(new Date());
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   const [envData, setEnvData] = useState({
     temperature: "--",
@@ -124,13 +124,13 @@ const Environment = ({ setIsLoggedIn }) => {
             //   },
             //   body: JSON.stringify({ status: newStatus })
             // });
-
+            const userId = localStorage.getItem("userId");
             await fetch(`http://localhost:3001/device/controlDevice`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
               },
-              body: JSON.stringify({ device: type, newStatus: newStatus })
+              body: JSON.stringify({ device: type, newStatus: newStatus, userId: userId })
             });
             //console.log(type, newStatus)
 
@@ -165,7 +165,7 @@ const Environment = ({ setIsLoggedIn }) => {
       devices.forEach((device) => {
         if (device.type === "fan") setFanOn(device.status === "On");
         if (device.type === "light") setLightOn(device.status === "On");
-        if (device.type === "ac") setAcOn(device.status === "On");
+        //if (device.type === "ac") setAcOn(device.status === "On");
       });
     } catch (error) {
       console.error("Lỗi khi lấy trạng thái thiết bị:", error);
@@ -197,40 +197,13 @@ const Environment = ({ setIsLoggedIn }) => {
   const handleToggleDevice = async (deviceType, currentStatus, setDeviceState) => {
     try {
       const newStatus = currentStatus ? "Off" : "On";
-      // const response = await fetch("http://localhost:3001/device/getAll");
-      // if (!response.ok) throw new Error("Lỗi khi gọi API");
-
-      // const result = await response.json();
-      // const devices = result.data;
-      // devices.forEach(async (device) => {
-      //   if (device.type === deviceType) {
-      //     await fetch(`http://localhost:3001/device/update/${device._id}`, {
-      //       method: "PUT",
-      //       headers: {
-      //         "Content-Type": "application/json"
-      //       },
-      //       body: JSON.stringify({ status: newStatus })
-      //     });
-      //     // Gửi yêu cầu cập nhật trạng thái thiết bị lên server
-      //     await fetch(`http://localhost:3001/device/controlDevice`, {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json"
-      //       },
-      //       body: JSON.stringify({ device: deviceType, newStatus: newStatus })
-      //     });
-      //     // Cập nhật trạng thái hiển thị trên giao diện
-      //     setDeviceState(!currentStatus);
-      //   }
-      // });
-      // Gửi yêu cầu cập nhật trạng thái thiết bị lên server
-      //console.log(deviceType, newStatus)
+      const userId = localStorage.getItem("userId");
       await fetch(`http://localhost:3001/device/controlDevice`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ device: deviceType, newStatus: newStatus })
+        body: JSON.stringify({ device: deviceType, newStatus: newStatus, userId: userId })
       });
       // Cập nhật trạng thái hiển thị trên giao diện
       setDeviceState(!currentStatus);
@@ -240,6 +213,11 @@ const Environment = ({ setIsLoggedIn }) => {
     } catch (error) {
       console.error(`Lỗi khi cập nhật trạng thái ${deviceType}:`, error);
     }
+  };
+
+  // New handler for device history
+  const handleDeviceHistory = () => {
+    navigate('/device-history');
   };
 
   // Dữ liệu biểu đồ
@@ -256,10 +234,6 @@ const Environment = ({ setIsLoggedIn }) => {
         <h1>Environment Monitor</h1>
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
-        </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
         </div>
       </header>
 
@@ -336,20 +310,13 @@ const Environment = ({ setIsLoggedIn }) => {
                 <span className="slider round"></span>
               </label>
             </div>
-            <div className="control-item">
-              <span className="control-label">Điều hòa</span>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={acOn}
-                  onChange={() => setAcOn(!acOn)}
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
           </div>
           <button className="view-details-btn" onClick={handleDeviceDetail}>
             Xem chi tiết
+          </button>
+          {/* New History Button */}
+          <button className="view-history-btn" onClick={handleDeviceHistory}>
+            Lịch sử thiết bị
           </button>
         </div>
       </section>

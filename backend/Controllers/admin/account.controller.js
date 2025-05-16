@@ -88,10 +88,8 @@ const create_admin_account = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const admin = await Admin.findOne({
-    email: email
-  });
-
+  const admin = await Admin.findOne({ email }).select('-imageData')
+  //console.log(admin);
   if (!admin) {
     return res.status(400).json({ message: 'Email đăng nhập không chính xác.' });
   }
@@ -99,11 +97,6 @@ const login = async (req, res) => {
   if (admin.password !== password) {
     return res.status(400).json({ message: 'Sai mật khẩu.' });
   }
-
-  if (admin.role !== "admin") {
-    return res.status(403).json({ message: 'Bạn không có quyền truy cập.' });
-  }
-
 
   const token = jwt.sign(
     {
@@ -115,8 +108,8 @@ const login = async (req, res) => {
     { expiresIn: '1d' }
   );
 
-  admin.token = token;
-  await admin.save();
+  // admin.token = token;
+  // await admin.save();
 
   // Lưu token vào cookie
   res.cookie("token", token, {
@@ -129,7 +122,8 @@ const login = async (req, res) => {
     message: "Đăng nhập thành công!",
     user: admin.fullname,
     role: admin.role,
-    token: admin.token,
+    //token: admin.token,
+    userId: admin.id
   });
 };
 

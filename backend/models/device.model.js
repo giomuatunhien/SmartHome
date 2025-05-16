@@ -26,7 +26,6 @@ const DeviceSchema = new mongoose.Schema(
             default: null,
             validate: {
                 validator: function (value) {
-                    // Nếu là light, speed phải null
                     return this.type === "fan" || value === null;
                 },
                 message: "Speed phải là null khi device là light.",
@@ -44,7 +43,7 @@ const DeviceSchema = new mongoose.Schema(
         },
         systemID: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "system",
+            //ref: "system",
             required: true,
         },
     },

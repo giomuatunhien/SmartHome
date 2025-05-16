@@ -61,7 +61,7 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         // Tìm tài khoản member theo email
-        const member = await Member.findOne({ email });
+        const member = await Member.findOne({ email }).select('-imageData');
         if (!member) {
             return res.status(400).json({ message: 'Email đăng nhập không chính xác.' });
         }
@@ -77,8 +77,8 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         );
-        member.token = token;
-        await member.save();
+        // member.token = token;
+        // await member.save();
 
         res.cookie("token", token, {
             maxAge: 24 * 60 * 60 * 1000,
@@ -90,7 +90,8 @@ const login = async (req, res) => {
             message: "Đăng nhập thành công!",
             user: member.fullname,
             role: member.role,
-            token: member.token
+            //token: member.token,
+            userId: member.id
         });
     } catch (error) {
         console.error(error);

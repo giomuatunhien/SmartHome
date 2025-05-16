@@ -1,6 +1,5 @@
 const express = require('express')
 const controller = require('../../Controllers/member/member.controller')
-//const Otpcontroller = require('../../Controllers/client/Otp.controller')
 
 const router = express.Router()
 

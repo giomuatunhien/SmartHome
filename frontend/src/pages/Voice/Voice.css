@@ -1,193 +1,202 @@
 .main-content {
-    flex: 1;
-    background: linear-gradient(to bottom, #fce4ec, #ffffff);
-    padding: 30px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .main-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .main-header h1 {
-    font-size: 28px;
-    color: #2c3e50;
-    font-weight: 600;
-  }
-  
-  .search-bar input {
-    padding: 10px;
-    border: 2px solid #3498db;
-    border-radius: 20px;
-    width: 250px;
-    font-size: 16px;
-    background-color: #ffffff;
-    transition: border-color 0.3s ease;
-  }
-  
-  .search-bar input:focus {
-    border-color: #2980b9;
-    outline: none;
-  }
-  
-  .header-icons {
-    display: flex;
-    gap: 20px;
-    font-size: 24px;
-  }
-  
-  .header-icons span {
-    cursor: pointer;
-    color: #7f8c8d;
-    transition: color 0.3s ease;
-  }
-  
-  .header-icons span:hover {
-    color: #e91e63;
-  }
-  
-  /* Voice Section */
-  .voice-section {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-  }
-  
-  .device-container {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .device-card {
-    background: linear-gradient(135deg, #ffffff, #fadbd8);
-    border-radius: 15px;
-    padding: 20px;
-    width: 200px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .device-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .device-card h3 {
-    font-size: 18px;
-    color: #34495e;
-    margin-bottom: 10px;
-  }
-  
-  .device-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .device-info span {
-    font-size: 14px;
-    color: #7f8c8d;
-  }
-  
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 24px;
-  }
-  
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #bdc3c7;
-    transition: 0.4s;
-    border-radius: 24px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: '';
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  input:checked + .slider {
-    background-color: #e91e63;
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(16px);
-  }
-  
-  /* Voice Controls */
-  .voice-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .record-btn {
-    background: linear-gradient(90deg, #9b59b6, #8e44ad);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-  }
-  
-  .record-btn:hover {
-    transform: scale(1.1);
-  }
-  
-  .commands-btn {
-    background-color: #bdc3c7;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .commands-btn:hover {
-    background-color: #95a5a6;
-  }
+  flex: 1;
+  background: linear-gradient(to bottom, #fce4ec, #ffffff);
+  padding: 30px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.main-header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.search-bar input {
+  padding: 10px;
+  border: 2px solid #3498db;
+  border-radius: 20px;
+  width: 250px;
+  font-size: 16px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+  border-color: #2980b9;
+  outline: none;
+}
+
+.header-icons {
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.header-icons span {
+  cursor: pointer;
+  color: #7f8c8d;
+  transition: color 0.3s ease;
+}
+
+.header-icons span:hover {
+  color: #e91e63;
+}
+
+/* Voice Section */
+.voice-section {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.device-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.device-card {
+  background: linear-gradient(135deg, #ffffff, #fadbd8);
+  border-radius: 15px;
+  padding: 20px;
+  width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.device-card:hover {
+  transform: translateY(-5px);
+}
+
+.device-card h3 {
+  font-size: 18px;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.device-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.device-info span {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #bdc3c7;
+  transition: 0.4s;
+  border-radius: 24px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.slider {
+  background-color: #e91e63;
+}
+
+input:checked+.slider:before {
+  transform: translateX(16px);
+}
+
+/* Voice Controls */
+.voice-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.record-btn {
+  background: linear-gradient(90deg, #9b59b6, #8e44ad);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.record-btn:hover {
+  transform: scale(1.1);
+}
+
+.commands-btn {
+  background-color: #bdc3c7;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.commands-btn:hover {
+  background-color: #95a5a6;
+}
+
+/* Voice.css additions */
+.status-log {
+  margin-top: 16px;
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+  color: #555;
+}

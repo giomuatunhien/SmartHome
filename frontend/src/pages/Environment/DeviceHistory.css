@@ -1,0 +1,108 @@
+/* DeviceHistory.css */
+.history-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+}
+
+.history-page header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.history-page header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.history-page header .back-btn {
+    background: linear-gradient(90deg, #e91e63, #c2185b);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.history-page header .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+}
+
+.history-section {
+    margin-bottom: 40px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.history-section h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: #444;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.history-table th {
+    background-color: #f1f1f1;
+    font-weight: 500;
+    color: #555;
+}
+
+.history-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    gap: 12px;
+}
+
+.pagination button {
+    background: linear-gradient(90deg, #e91e63, #c2185b);
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pagination button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.pagination button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+}
+
+.pagination span {
+    font-size: 14px;
+    color: #666;
+}

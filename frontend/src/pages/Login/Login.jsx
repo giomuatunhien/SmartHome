@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-
+// Import các ảnh banner
+import banner1 from '../../img/banner1.jpg';
+import banner2 from '../../img/banner2.jpg';
+import yoloLogo from '../../img/yolo.png';
 const Login = ({ setIsLoggedIn }) => {
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -9,14 +12,22 @@ const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [currentBanner, setCurrentBanner] = useState(0); // Quản lý ảnh nền hiện tại
   const navigate = useNavigate();
-
+  // Danh sách các ảnh banner
+  const banners = [banner1, banner2];
   // Dữ liệu người dùng giả lập
   // const mockUsers = {
   //   Admin: [{ email: 'admin@gmail.com', password: 'admin' }],
   //   Member: [{ email: 'member@gmail.com', password: 'member123' }],
   // };
-
+  // Tự động chuyển đổi ảnh nền mỗi 5 giây
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000); // Chuyển đổi mỗi 5 giây
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+  }, [banners.length]);
   // Xử lý khi bấm nút LOGIN
   const handleLoginClick = () => {
     setShowRoleModal(true);
@@ -77,9 +88,10 @@ const Login = ({ setIsLoggedIn }) => {
       const data = await response.json();
       if (response.ok) {
         // Lưu token vào localStorage để sử dụng sau này
-        localStorage.setItem("token", data.token);
+        //localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
         localStorage.setItem("user", data.user);
+        localStorage.setItem("userId", data.userId);
         setIsLoggedIn(true);
         navigate("/home");
       } else {
@@ -127,8 +139,10 @@ const Login = ({ setIsLoggedIn }) => {
       {/* Header */}
       <header className="header">
         <div className="logo">
-          <span role="img" aria-label="house">🏠</span> YOLO Home
+          <img src={yoloLogo} alt="YOLO Home" className="logo-img" />
+          YOLO Home
         </div>
+
         <nav className="nav">
           <a href="#news">News</a>
           <a href="#about">About</a>
@@ -139,19 +153,32 @@ const Login = ({ setIsLoggedIn }) => {
         </nav>
       </header>
 
-      {/* Hero Section với ảnh nền */}
+      {/* Hero Section với ảnh nền chuyển đổi */}
       <section className="hero">
-        <div className="hero-background" />
+        <div
+          className="hero-background"
+          style={{ backgroundImage: `url(${banners[currentBanner]})` }}
+        />
+        <div className="hero-content">
+          <h1>Welcome to YOLO Home</h1>
+          <p>Control your smart home with ease and style.</p>
+        </div>
       </section>
 
       {/* Modal chọn vai trò */}
       {showRoleModal && (
         <div className="modal-overlay">
-          <div className="role-modal">
+          <div className="role-modal animate-modal">
             <h2>Login as:</h2>
-            <button onClick={() => handleRoleSelect('Admin')}>Admin</button>
-            <button onClick={() => handleRoleSelect('Member')}>Member</button>
-            <button onClick={() => setShowRoleModal(false)}>Cancel</button>
+            <button className="role-btn" onClick={() => handleRoleSelect('Admin')}>
+              Admin
+            </button>
+            <button className="role-btn" onClick={() => handleRoleSelect('Member')}>
+              Member
+            </button>
+            <button className="cancel-btn" onClick={() => setShowRoleModal(false)}>
+              Cancel
+            </button>
           </div>
         </div>
       )}
@@ -159,7 +186,7 @@ const Login = ({ setIsLoggedIn }) => {
       {/* Modal đăng nhập */}
       {showLoginModal && (
         <div className="modal-overlay">
-          <div className="login-modal">
+          <div className="login-modal animate-modal">
             <h2>Login your account!</h2>
             {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleLoginSubmit}>

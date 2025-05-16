@@ -4,24 +4,24 @@ const EnvironmentDataSchema = new mongoose.Schema(
   {
     value: {
       type: Number,
-      required: true, // Giá trị đo được từ sensor
+      required: true,
     },
     timestamp: {
       type: Date,
-      default: Date.now, // Thời gian lưu dữ liệu
+      default: Date.now,
     },
     systemID: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      length: 24, // Đảm bảo đủ 24 ký tự
+      length: 24,
     },
     sensorID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Sensor", // Liên kết với bảng Sensor
+      ref: "Sensor",
       length: 24,
       required: true,
     },
-  },{versionKey: false}
+  }, { versionKey: false }
 );
 
 const EnvironmentData = mongoose.model("EnvironmentData", EnvironmentDataSchema, "environmentData");

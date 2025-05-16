@@ -13,10 +13,6 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
     on: 0,
     off: 0,
   });
-  const [acThresholds, setAcThresholds] = useState({
-    on: 0,
-    off: 0,
-  });
 
   useEffect(() => {
     // Lấy ngưỡng từ API
@@ -34,8 +30,6 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
             setFanThresholds({ on: activationThreshold, off: deactivationThreshold });
           } else if (type === 'light') {
             setLightThresholds({ on: activationThreshold, off: deactivationThreshold });
-          } else if (type === 'ac') {
-            setAcThresholds({ on: activationThreshold, off: deactivationThreshold });
           }
         });
       } catch (error) {
@@ -86,8 +80,6 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
       setFanThresholds((prev) => ({ ...prev, [type]: newValue }));
     } else if (device === 'light') {
       setLightThresholds((prev) => ({ ...prev, [type]: newValue }));
-    } else if (device === 'ac') {
-      setAcThresholds((prev) => ({ ...prev, [type]: newValue }));
     }
   };
 
@@ -96,44 +88,12 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
     navigate('/environment');
   };
 
-  // const handleSave = () => {
-  //   alert('Ngưỡng thiết bị đã được lưu!');
-  //   navigate('/environment');
-  // };
-
-  // const handleFanChange = (type, value) => {
-  //   setFanThresholds((prev) => ({
-  //     ...prev,
-  //     [type]: Math.max(0, Math.min(100, Number(value))),
-  //   }));
-  // };
-
-  // const handleLightChange = (type, value) => {
-  //   setLightThresholds((prev) => ({
-  //     ...prev,
-  //     [type]: Math.max(0, Math.min(100, Number(value))),
-  //   }));
-  // };
-
-  // const handleAcChange = (type, value) => {
-  //   setAcThresholds((prev) => ({
-  //     ...prev,
-  //     [type]: Math.max(0, Math.min(100, Number(value))),
-  //   }));
-  // };
-
-
-
   return (
     <main className="main-content">
       <header className="main-header">
         <h1>Devices Configuration</h1>
         <div className="search-bar">
           <input type="text" placeholder="Search for something" />
-        </div>
-        <div className="header-icons">
-          <span role="img" aria-label="settings">⚙️</span>
-          <span role="img" aria-label="notifications">🔔</span>
         </div>
       </header>
 
@@ -174,25 +134,6 @@ const DevicesConfig = ({ setIsLoggedIn }) => {
                 type="number"
                 value={lightThresholds.off}
                 onChange={(e) => handleThresholdChange('light', 'off', e.target.value)}
-              /> %
-            </div>
-          </div>
-          <div className="device-item">
-            <h3>Điều hòa</h3>
-            <div className="threshold-row">
-              <label>Ngưỡng bật: </label>
-              <input
-                type="number"
-                value={acThresholds.on}
-                onChange={(e) => handleThresholdChange('ac', 'on', e.target.value)}
-              /> %
-            </div>
-            <div className="threshold-row">
-              <label>Ngưỡng tắt: </label>
-              <input
-                type="number"
-                value={acThresholds.off}
-                onChange={(e) => handleThresholdChange('ac', 'off', e.target.value)}
               /> %
             </div>
           </div>

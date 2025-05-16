@@ -32,13 +32,44 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
+.fixed-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  /* Tăng z-index để đảm bảo không bị che khuất */
+}
+
+.fixed-notification span {
+  font-size: 24px;
+  cursor: pointer;
+  color: #34495e;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.fixed-notification span:hover {
+  color: #3498db;
+  transform: scale(1.2);
+}
+
 .app-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  /* Đổi từ height thành min-height để phù hợp với nội dung dài */
   font-family: Arial, sans-serif;
+}
+
+.app-container>*:nth-child(2) {
+  margin-left: 220px;
+  /* Bằng với width của sidebar trong Menu.css */
+  flex: 1;
+  /* Đảm bảo nội dung chính chiếm toàn bộ không gian còn lại */
+  padding: 20px;
+  /* Thêm padding để nội dung không sát lề */
 }
